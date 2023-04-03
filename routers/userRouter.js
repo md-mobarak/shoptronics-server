@@ -2,6 +2,6 @@ const express = require("express");
 const router = express.Router();
 const usersControler = require("../controllers/usersControler");
 
-router.post("/", usersControler.postUsers);
+router.put("/:email", usersControler.putUsers);
 
 module.exports = router;

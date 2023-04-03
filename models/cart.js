@@ -5,7 +5,6 @@ const cartSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide a product name"],
     trim: true,
-    unique: [true, "name is must be unique"],
     minLength: [3, "please, name at least 3 characters"],
     maxLength: [100, "name is too large"],
   },
@@ -22,6 +21,11 @@ const cartSchema = new mongoose.Schema({
     required: true,
     min: [0, "price can't be negative "],
   },
+  totalPrice: {
+    type: Number,
+    required: true,
+    min: [0, "price can't be negative "],
+  },
 
   quantity: {
     type: Number,
@@ -31,4 +35,6 @@ const cartSchema = new mongoose.Schema({
 });
 
 const Cart = mongoose.model("Cart", cartSchema);
-module.exports = Cart;
+module.exports = {
+  Cart,
+};

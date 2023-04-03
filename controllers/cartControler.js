@@ -2,7 +2,7 @@ const cart = require("../models/cart");
 
 const postCart = async (req, res) => {
   try {
-    const carts = await cart.create(req.body);
+    const carts = await cart.Cart.create(req.body);
     res.status(200).json({
       status: "success",
       carts: carts,
@@ -11,13 +11,14 @@ const postCart = async (req, res) => {
     res.status(400).json({
       status: "file",
       err: err.message,
+      log: console.log(err.message),
     });
   }
 };
 
 const getAllCart = async (req, res, next) => {
   try {
-    const carts = await cart.find();
+    const carts = await cart.Cart.find();
     res.status(200).json({
       status: "success",
       carts: carts,
@@ -32,7 +33,7 @@ const getAllCart = async (req, res, next) => {
 
 const getCartWithEmail = async (req, res) => {
   try {
-    const allCart = await cart.find({ email: req.params.email });
+    const allCart = await cart.Cart.find({ email: req.params.email });
     res.status(200).json({
       status: "success",
       allCart: allCart,
@@ -46,10 +47,29 @@ const getCartWithEmail = async (req, res) => {
 };
 const deleteCart = async (req, res) => {
   try {
-    const deleteItem = await cart.findByIdAndDelete(req.params.id);
+    const deleteItem = await cart.Cart.findByIdAndDelete(req.params.id);
     res.status(200).json({
       status: "success",
       deleteCart: deleteItem,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "file",
+      err: err.message,
+    });
+  }
+};
+const updateCart = async (req, res) => {
+  try {
+    const { quantity, _id, totalPrice } = req.body;
+    const updateQuantity = await cart.Cart.findByIdAndUpdate(
+      { _id: _id },
+      { quantity, totalPrice },
+      { new: true }
+    );
+    res.status(200).json({
+      status: "success",
+      updateQuantity: updateQuantity,
     });
   } catch (err) {
     res.status(400).json({
@@ -64,4 +84,5 @@ module.exports = {
   getCartWithEmail,
   getAllCart,
   deleteCart,
+  updateCart,
 };
