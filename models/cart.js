@@ -32,6 +32,12 @@ const cartSchema = new mongoose.Schema({
     required: true,
     min: [0, "price can't be negative "],
   },
+  paid: {
+    type: Boolean,
+  },
+  transactionId: {
+    type: String,
+  },
 });
 
 const Cart = mongoose.model("Cart", cartSchema);

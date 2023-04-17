@@ -78,6 +78,25 @@ const updateCart = async (req, res) => {
     });
   }
 };
+const updateCartWithEmail = async (req, res) => {
+  try {
+    const email = req.params.email;
+    console.log("Email:", email);
+    const paid = req.body.paid;
+    const transactionId = req.body.transactionId;
+
+    const result = await cart.Cart.updateMany(
+      { email },
+      { $set: { paid, transactionId } },
+      { new: true }
+    );
+    console.log(result);
+    res.json({ updatedCount: result.nModified });
+  } catch (error) {
+    // Handle error
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   postCart,
@@ -85,4 +104,5 @@ module.exports = {
   getAllCart,
   deleteCart,
   updateCart,
+  updateCartWithEmail,
 };
